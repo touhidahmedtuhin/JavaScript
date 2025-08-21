@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Switch Statement Visualizer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #4dc0b2;
+            text-shadow: 0 0 10px rgba(77, 192, 178, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .code-section, .visualization {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        h2 {
+            color: #4dc0b2;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        
+        pre {
+            background: #1a2b3c;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        code {
+            color: #e2e8f0;
+        }
+        
+        .keyword {
+            color: #ff6b6b;
+        }
+        
+        .function {
+            color: #4dc0b2;
+        }
+        
+        .variable {
+            color: #ffd79c;
+        }
+        
+        .string {
+            color: #9ae6b4;
+        }
+        
+        .comment {
+            color: #a0aec0;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        label {
+            font-size: 1.1rem;
+            color: #a0aec0;
+        }
+        
+        input {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #4dc0b2;
+            background: rgba(26, 43, 60, 0.8);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        input:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
+        }
+        
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4dc0b2, #349886);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .output {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(26, 43, 60, 0.8);
+            border-radius: 10px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #4dc0b2;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .switch-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .case {
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(26, 43, 60, 0.8);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.5s;
+        }
+        
+        .case-number {
+            background: #4dc0b2;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .case-content {
+            flex: 1;
+        }
+        
+        .active {
+            background: rgba(77, 192, 178, 0.2);
+            box-shadow: 0 0 15px rgba(77, 192, 178, 0.5);
+            transform: scale(1.02);
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            text-align: center;
+            margin: 10px 0;
+            color: #ff6b6b;
+        }
+        
+        .explanation {
+            max-width: 800px;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            line-height: 1.6;
+        }
+        
+        .explanation h3 {
+            color: #4dc0b2;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .explanation p {
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JavaScript Switch Statement Visualizer</h1>
+        <p class="subtitle">See how a switch statement works in JavaScript. Enter a value and watch the execution flow.</p>
+    </header>
+    
+    <div class="container">
+        <div class="code-section">
+            <h2>Code Example</h2>
+            <pre><code><span class="keyword">function</span> <span class="function">caseInSwitch</span>(val) {
+  <span class="keyword">let</span> <span class="variable">answer</span> = <span class="string">""</span>;
+  <span class="comment">// Only change code below this line</span>
+  <span class="keyword">switch</span>(val){
+    <span class="keyword">case</span>  <span class="string">"1"</span>:
+      <span class="variable">answer</span> += <span class="string">"alpha"</span>;
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span>  <span class="string">"2"</span>:
+      <span class="variable">answer</span> += <span class="string">"beta"</span>;
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"3"</span>:
+      <span class="variable">answer</span> += <span class="string">"gamma"</span>;
+      <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"4"</span>:
+      <span class="variable">answer</span> += <span class="string">"delta"</span>;
+      <span class="keyword">break</span>;
+  }
+  <span class="comment">// Only change code above this line</span>
+  <span class="keyword">return</span> <span class="variable">answer</span>;
+}</code></pre>
+            
+            <div class="input-section">
+                <label for="inputValue">Enter a value (1-4):</label>
+                <input type="text" id="inputValue" placeholder="Try 1, 2, 3, or 4">
+                <button id="runButton">Run Function</button>
+            </div>
+            
+            <div class="output" id="output">
+                Output will appear here
+            </div>
+        </div>
+        
+        <div class="visualization">
+            <h2>Execution Flow</h2>
+            <div class="switch-visual">
+                <div class="case" id="case1">
+                    <div class="case-number">1</div>
+                    <div class="case-content">case "1": answer = "alpha"; break;</div>
+                </div>
+                
+                <div class="case" id="case2">
+                    <div class="case-number">2</div>
+                    <div class="case-content">case "2": answer = "beta"; break;</div>
+                </div>
+                
+                <div class="case" id="case3">
+                    <div class="case-number">3</div>
+                    <div class="case-content">case "3": answer = "gamma"; break;</div>
+                </div>
+                
+                <div class="case" id="case4">
+                    <div class="case-number">4</div>
+                    <div class="case-content">case "4": answer = "delta"; break;</div>
+                </div>
+                
+                <div class="arrow">↓</div>
+                
+                <div class="case" id="return">
+                    <div class="case-number">R</div>
+                    <div class="case-content">return answer;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="explanation">
+        <h3>How Switch Statements Work</h3>
+        <p>A switch statement in JavaScript provides a way to execute different code blocks based on different conditions.</p>
+        <p><strong>Syntax:</strong> The switch expression is evaluated once and compared with the values of each case. If there's a match, the associated block of code is executed.</p>
+        <p><strong>Break keyword:</strong> The break statement terminates the switch statement. Without it, execution would "fall through" to the next case.</p>
+        <p><strong>Default case:</strong> Though not used in this example, a default case can be added to execute if no cases match.</p>
+    </div>
+
+    <script>
+        document.getElementById('runButton').addEventListener('click', function() {
+            // Get input value
+            const inputVal = document.getElementById('inputValue').value;
+            
+            // Reset all cases
+            document.querySelectorAll('.case').forEach(caseEl => {
+                caseEl.classList.remove('active');
+            });
+            
+            // Show loading state in output
+            const outputEl = document.getElementById('output');
+            outputEl.textContent = 'Executing...';
+            
+            // Execute after a short delay for visual effect
+            setTimeout(() => {
+                // Execute the function
+                const result = caseInSwitch(inputVal);
+                
+                // Display the result
+                outputEl.textContent = `caseInSwitch(${inputVal}) = "${result}"`;
+                
+                // Highlight the appropriate case
+                if (inputVal === "1") {
+                    document.getElementById('case1').classList.add('active');
+                } else if (inputVal === "2") {
+                    document.getElementById('case2').classList.add('active');
+                } else if (inputVal === "3") {
+                    document.getElementById('case3').classList.add('active');
+                } else if (inputVal === "4") {
+                    document.getElementById('case4').classList.add('active');
+                }
+                
+                // Always highlight the return statement
+                document.getElementById('return').classList.add('active');
+            }, 800);
+        });
+        
+        // The function from the example
+        function caseInSwitch(val) {
+            let answer = "";
+            switch(val){
+                case "1":
+                    answer += "alpha";
+                    break;
+                case "2":
+                    answer += "beta";
+                    break;
+                case "3":
+                    answer += "gamma";
+                    break;
+                case "4":
+                    answer += "delta";
+                    break;
+            }
+            return answer;
+        }
+    </script>
+</body>
+</html>
