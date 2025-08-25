@@ -1,12 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ayns await</title>
-  <script src="./script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async Function Explanation</title>
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  
+    <div class="container">
+        <header>
+            <h1>Async Function Explanation</h1>
+            <p class="subtitle">Step-by-step breakdown of an asynchronous JavaScript function</p>
+        </header>
+        
+        <div class="content">
+            <div class="explanation">
+                <h2>Step-by-Step Explanation</h2>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span>Function Declaration</h3>
+                    <p>The code begins by declaring an asynchronous function named <code>loadUser</code>.</p>
+                    <div class="code">
+                        <span class="keyword">async function</span> <span class="function">loadUser</span>() { ... }
+                    </div>
+                    <p>The <code>async</code> keyword indicates that the function will handle asynchronous operations.</p>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">2</span>Try Block</h3>
+                    <p>The <code>try</code> block wraps the asynchronous code to handle any potential errors that might occur.</p>
+                    <div class="code">
+                        <span class="keyword">try</span> { ... } <span class="keyword">catch</span> (err) { ... }
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">3</span>Fetch API Call</h3>
+                    <p>The <code>fetch</code> function is called to retrieve user data from the API endpoint.</p>
+                    <div class="code">
+                        <span class="keyword">let</span> <span class="variable">res</span> = <span class="keyword">await</span> fetch(<span class="string">"https://jsonplaceholder.typicode.com/users/1"</span>);
+                    </div>
+                    <p>The <code>await</code> keyword pauses execution until the Promise returned by <code>fetch</code> resolves.</p>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">4</span>Response Processing</h3>
+                    <p>The response is converted to JSON format using the <code>.json()</code> method.</p>
+                    <div class="code">
+                        <span class="keyword">let</span> <span class="variable">user</span> = <span class="keyword">await</span> <span class="variable">res</span>.json();
+                    </div>
+                    <p>Again, <code>await</code> is used to wait for the Promise to resolve.</p>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">5</span>Logging User Data</h3>
+                    <p>The user's name and email are logged to the console.</p>
+                    <div class="code">
+                        console.<span class="function">log</span>(<span class="variable">user</span>.name);<br>
+                        console.<span class="function">log</span>(<span class="variable">user</span>.email);
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">6</span>Error Handling</h3>
+                    <p>If any errors occur during the process, they are caught and logged in the <code>catch</code> block.</p>
+                    <div class="code">
+                        <span class="keyword">catch</span> (err) {<br>
+                        &nbsp;&nbsp;console.<span class="function">error</span>(<span class="string">"Failed to load user:"</span>, err);<br>
+                        }
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">7</span>Function Invocation</h3>
+                    <p>Finally, the <code>loadUser()</code> function is called to execute the code.</p>
+                    <div class="code">
+                        <span class="function">loadUser</span>();
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo">
+                <h2>Live Demo</h2>
+                <p>Click the button below to execute the function and see the results:</p>
+                
+                <button class="button" id="loadUserBtn">Load User Data</button>
+                
+                <div class="output" id="output">
+                    <p>Results will appear here after executing the function.</p>
+                </div>
+                
+                <div id="userData" class="user-card" style="display: none;">
+                    <h3>User Details</h3>
+                    <div class="user-property"><span class="property-name">Name:</span> <span id="userName"></span></div>
+                    <div class="user-property"><span class="property-name">Email:</span> <span id="userEmail"></span></div>
+                    <div class="user-property"><span class="property-name">Username:</span> <span id="userUsername"></span></div>
+                    <div class="user-property"><span class="property-name">Phone:</span> <span id="userPhone"></span></div>
+                    <div class="user-property"><span class="property-name">Website:</span> <span id="userWebsite"></span></div>
+                    <div class="user-property"><span class="property-name">Company:</span> <span id="userCompany"></span></div>
+                    <div class="user-property"><span class="property-name">Address:</span> <span id="userAddress"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Created for educational purposes | Touhid Ahmed Tuhin</p>
+    </footer>
 </body>
 </html>
